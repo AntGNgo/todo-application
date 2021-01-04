@@ -80,6 +80,7 @@ h1 {
 }
 
 .list-options {
+  background: var(--very-light-gray);
   display: flex;
   font-size: 0.8rem;
   justify-content: space-around;
