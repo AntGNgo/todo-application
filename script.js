@@ -4,6 +4,8 @@ const list = document.querySelector('.list')
 const itemsLeft = document.querySelector('.items-left')
 const clearCompleted = document.querySelector('.clear-completed')
 const showCompleted = document.querySelector('.completed')
+const showActive = document.querySelector('.active')
+const showAll = document.querySelector('.all')
 
 
 let listItems = [...list.children]
@@ -86,6 +88,30 @@ const createNewItem = (input = "Study Development") => {
     })
     
 }
+
+showAll.addEventListener('click', () => {
+    while (list.firstChild) {
+        list.removeChild(list.firstChild)
+    }
+
+    listItems.forEach(item => {
+            list.appendChild(item)
+    })
+})
+
+
+showActive.addEventListener('click', () => {
+    while (list.firstChild) {
+        list.removeChild(list.firstChild)
+    }
+
+    listItems.forEach(item => {
+        if (!item.classList.contains('completed')) {
+            list.appendChild(item)
+        }
+    })
+
+})
 
 
 showCompleted.addEventListener('click', () => {
