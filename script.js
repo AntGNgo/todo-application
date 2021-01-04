@@ -3,6 +3,7 @@ const list = document.querySelector('.list')
 // const completedBtn = document.querySelector('.task__check')
 const itemsLeft = document.querySelector('.items-left')
 const clearCompleted = document.querySelector('.clear-completed')
+const showCompleted = document.querySelector('.completed')
 
 
 let listItems = [...list.children]
@@ -85,6 +86,19 @@ const createNewItem = (input = "Study Development") => {
     })
     
 }
+
+
+showCompleted.addEventListener('click', () => {
+    while (list.firstChild) {
+        list.removeChild(list.firstChild)
+    }
+
+    completedItems.forEach(item => {
+        list.appendChild(item)
+    })
+
+})
+
 
 
 clearCompleted.addEventListener('click', (e) => {
