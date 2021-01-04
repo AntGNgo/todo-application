@@ -4,17 +4,17 @@ const completedBtn = document.querySelector('.task__check')
 const itemsLeft = document.querySelector('.items-left')
 
 
-const listItems = [...list.children]
+let listItems = [...list.children]
+let completedItems = []
+
+const checkCompleted = () => {
+    completedItems = listItems.filter(item => {
+        return item.classList.contains('completed')
+    })
+}
+
 
 // New Task
-
-// const addEventOnNew = () => {
-//     listItems.forEach(item => {
-//         item.addEventListener('click', () => {
-//             item.classList.toggle('completed')
-//         })
-//     })
-// }
 
 const createNewItem = (input = "Study Development") => {
     let task = document.createElement('div')
@@ -35,21 +35,26 @@ const createNewItem = (input = "Study Development") => {
 
     task.addEventListener('click', () => {
         task.classList.toggle('completed')
+        checkCompleted()
+        console.log(completedItems.length)
+        if(listItems.length - completedItems.length === 1) {
+            itemsLeft.innerHTML = `${listItems.length - completedItems.length} item left`
+        } else {
+            itemsLeft.innerHTML = `${listItems.length - completedItems.length} items left`
+        }        
     })
-    
+
     listItems.push(task)
 
     listItems.forEach((item) => {
         list.appendChild(item)
+        if (listItems.length - completedItems.length === 1) {
+            itemsLeft.innerHTML = `${listItems.length - completedItems.length} item left`
+        } else {
+            itemsLeft.innerHTML = `${listItems.length - completedItems.length} items left`
+        }
     })
 
-    // addEventOnNew()
-
-    if(listItems.length === 1) {
-        itemsLeft.innerHTML = `${listItems.length} item left`
-    } else {
-        itemsLeft.innerHTML = `${listItems.length} items left`
-    }
 }
 
 
