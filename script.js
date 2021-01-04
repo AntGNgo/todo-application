@@ -1,12 +1,22 @@
 const input = document.querySelector('.create-todo__input')
 const list = document.querySelector('.list')
 const completedBtn = document.querySelector('.task__check')
+const itemsLeft = document.querySelector('.items-left')
 
 
 const listItems = [...list.children]
 
 // New Task
-const createNewItem = (input = "Study Developement") => {
+
+// const addEventOnNew = () => {
+//     listItems.forEach(item => {
+//         item.addEventListener('click', () => {
+//             item.classList.toggle('completed')
+//         })
+//     })
+// }
+
+const createNewItem = (input = "Study Development") => {
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -22,23 +32,27 @@ const createNewItem = (input = "Study Developement") => {
 
     task.appendChild(circle)
     task.appendChild(taskName)
+
+    task.addEventListener('click', () => {
+        task.classList.toggle('completed')
+    })
     
     listItems.push(task)
 
     listItems.forEach((item) => {
         list.appendChild(item)
     })
-    addEventOnNew()
+
+    // addEventOnNew()
+
+    if(listItems.length === 1) {
+        itemsLeft.innerHTML = `${listItems.length} item left`
+    } else {
+        itemsLeft.innerHTML = `${listItems.length} items left`
+    }
 }
 
-const addEventOnNew = () => {
-    listItems.forEach(item => {
-        item.addEventListener('click', () => {
-            console.log('hello')
-            item.classList.toggle('completed')
-        })
-    })
-}
+
 
 input.addEventListener('keydown', (e) => {
     if(e.keyCode === 13) {
