@@ -2,6 +2,7 @@ const input = document.querySelector('.create-todo__input')
 const list = document.querySelector('.list')
 const completedBtn = document.querySelector('.task__check')
 const itemsLeft = document.querySelector('.items-left')
+const clearCompleted = document.querySelector('.clear-completed')
 
 
 let listItems = [...list.children]
@@ -56,6 +57,20 @@ const createNewItem = (input = "Study Development") => {
     })
 
 }
+
+clearCompleted.addEventListener('click', () => {
+    console.log('here')
+    console.log(listItems)
+    listItems.forEach(item => {
+        if(item.classList.contains('completed')) {
+            let index = listItems.indexOf(item)
+            if(index > -1) {
+                listItems.splice(index, 1)
+            }
+            item.remove()
+        }
+    })
+})
 
 
 
