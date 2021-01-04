@@ -3,7 +3,6 @@ const list = document.querySelector('.list')
 // const completedBtn = document.querySelector('.task__check')
 const itemsLeft = document.querySelector('.items-left')
 const clearCompleted = document.querySelector('.clear-completed')
-const delBtn = document.querySelectorAll('.task__delete')
 
 
 let listItems = [...list.children]
@@ -71,33 +70,33 @@ const createNewItem = (input = "Study Development") => {
     //     console.log(delBtn)
     //     delBtn[i].addEventListener('click', remove)
     // }
+    const delBtn = document.querySelectorAll('.task__delete')
 
+    delBtn.forEach(btn => {
+        btn.addEventListener('click', () => {
+            let index = listItems.indexOf(btn.parentNode)
+            if(index > -1) {
+                listItems[index].remove()
+                listItems.splice(index, 1)
+            }
+
+            btn.parentNode.remove()
+        })
+    })
     
 }
 
 
 clearCompleted.addEventListener('click', (e) => {
-    for(let i=listItems.length-1; i >=0; i--) {
+    for(let i=listItems.length-1; i>=0; i--) {
         if(listItems[i].classList.contains('completed')) {
             let index = listItems.indexOf(listItems[i])
             if(index > -1) {
-                console.log(listItems[i])
                 listItems[i].remove()
                 listItems.splice(index, 1)
             }
         }
     }
-    // listItems.forEach(item => {
-    //     if(item.classList.contains('completed')) {
-    //         let index = listItems.indexOf(item)
-    //         if(index > -1) {
-    //             console.log(index)
-    //             item.remove()
-    //             listItems.splice(index, 1)
-    //         }
-            
-    //     }
-    // })
     console.log(listItems)
 })
 
