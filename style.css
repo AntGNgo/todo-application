@@ -81,6 +81,21 @@ h1 {
   margin-right: 1rem;
 }
 
+.task__delete {
+  opacity: 0;
+  background: url('./images/icon-cross.svg') no-repeat;
+  background-size: cover;
+  height: 25px;
+  width: 25px;
+  margin-left: auto;
+}
+
+.task:hover .task__delete {
+  opacity: 1;
+  display: inline;
+  cursor: pointer;
+}
+
 /* Completed Style */
 .completed .task__check {
   background-image: url('./images/icon-check.svg'),

@@ -1,8 +1,9 @@
 const input = document.querySelector('.create-todo__input')
 const list = document.querySelector('.list')
-const completedBtn = document.querySelector('.task__check')
+// const completedBtn = document.querySelector('.task__check')
 const itemsLeft = document.querySelector('.items-left')
 const clearCompleted = document.querySelector('.clear-completed')
+const delBtn = document.querySelectorAll('.task__delete')
 
 
 let listItems = [...list.children]
@@ -31,13 +32,16 @@ const createNewItem = (input = "Study Development") => {
     let taskInput = document.createTextNode(input)
     taskName.appendChild(taskInput)
 
+    let del = document.createElement('div')
+    del.classList.add('task__delete')
+
     task.appendChild(circle)
     task.appendChild(taskName)
+    task.appendChild(del)
 
     task.addEventListener('click', () => {
         task.classList.toggle('completed')
         checkCompleted()
-        console.log(completedItems.length)
         if(listItems.length - completedItems.length === 1) {
             itemsLeft.innerHTML = `${listItems.length - completedItems.length} item left`
         } else {
@@ -46,6 +50,8 @@ const createNewItem = (input = "Study Development") => {
     })
 
     listItems.push(task)
+
+    // Add items to list to render in HTML
 
     listItems.forEach((item) => {
         list.appendChild(item)
@@ -56,27 +62,52 @@ const createNewItem = (input = "Study Development") => {
         }
     })
 
+    
+    // let remove = function() {
+    //     this.parentNode.remove()
+    // }
+
+    // for(let i=0; i < delBtn.length; i++) {
+    //     console.log(delBtn)
+    //     delBtn[i].addEventListener('click', remove)
+    // }
+
+    
 }
 
-clearCompleted.addEventListener('click', () => {
-    console.log('here')
-    console.log(listItems)
-    listItems.forEach(item => {
-        if(item.classList.contains('completed')) {
-            let index = listItems.indexOf(item)
+
+clearCompleted.addEventListener('click', (e) => {
+    for(let i=listItems.length-1; i >=0; i--) {
+        if(listItems[i].classList.contains('completed')) {
+            let index = listItems.indexOf(listItems[i])
             if(index > -1) {
+                console.log(listItems[i])
+                listItems[i].remove()
                 listItems.splice(index, 1)
             }
-            item.remove()
         }
-    })
+    }
+    // listItems.forEach(item => {
+    //     if(item.classList.contains('completed')) {
+    //         let index = listItems.indexOf(item)
+    //         if(index > -1) {
+    //             console.log(index)
+    //             item.remove()
+    //             listItems.splice(index, 1)
+    //         }
+            
+    //     }
+    // })
+    console.log(listItems)
 })
 
 
 
 input.addEventListener('keydown', (e) => {
     if(e.keyCode === 13) {
+        e.preventDefault()
         createNewItem(e.target.value)
+        e.target.value = ''
     }
 })
 
