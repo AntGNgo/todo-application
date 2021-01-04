@@ -20,7 +20,7 @@ body {
   background: url(./images/bg-desktop-light.jpg) no-repeat;
   /* background-color: var(--very-light-grayish-blue); */
   font-family: 'Josefin Sans', sans-serif;
-  font-size: 18px;
+  /* font-size: 18px; */
 }
 
 .container {
@@ -42,6 +42,7 @@ h1 {
   align-items: center;
   background: var(--very-light-gray);
   padding: 15px;
+  user-select: none;
 }
 
 .list .task-container {
@@ -61,13 +62,14 @@ h1 {
 
 .create-todo__input {
   font-family: 'Josefin Sans', sans-serif;
+  font-size: 1rem;
   width: 340px;
   border: none;
   background: var(--very-light-gray);
 }
 
 .create-todo__input::placeholder {
-  font-size: 18px;
+  font-size: 1rem;
   font-family: 'Josefin Sans', sans-serif;
 }
 
@@ -77,6 +79,20 @@ h1 {
   width: 30px;
   border-radius: 100px;
   margin-right: 1rem;
+}
+
+/* Completed Style */
+.completed .task__check {
+  background-image: url('./images/icon-check.svg'),
+    linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+  background-repeat: no-repeat;
+  background-size: 50%, cover;
+  background-position: center;
+  border: 1px solid white;
+}
+
+.completed .task__name {
+  text-decoration: line-through;
 }
 
 .list-options {

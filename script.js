@@ -1,7 +1,12 @@
 const input = document.querySelector('.create-todo__input')
 const list = document.querySelector('.list')
+const completedBtn = document.querySelector('.task__check')
 
-const createNewItem = (input) => {
+
+const listItems = [...list.children]
+
+// New Task
+const createNewItem = (input = "Study Developement") => {
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -17,9 +22,22 @@ const createNewItem = (input) => {
 
     task.appendChild(circle)
     task.appendChild(taskName)
+    
+    listItems.push(task)
 
-    list.appendChild(task)
+    listItems.forEach((item) => {
+        list.appendChild(item)
+    })
+    addEventOnNew()
+}
 
+const addEventOnNew = () => {
+    listItems.forEach(item => {
+        item.addEventListener('click', () => {
+            console.log('hello')
+            item.classList.toggle('completed')
+        })
+    })
 }
 
 input.addEventListener('keydown', (e) => {
@@ -27,3 +45,5 @@ input.addEventListener('keydown', (e) => {
         createNewItem(e.target.value)
     }
 })
+
+createNewItem()
