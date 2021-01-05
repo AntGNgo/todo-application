@@ -90,6 +90,11 @@ const createNewItem = (input = "Study Development") => {
 }
 
 showAll.addEventListener('click', () => {
+    if(!showAll.classList.contains('selected')) {
+        showAll.classList.add('selected')
+        showActive.classList.remove('selected')
+        showCompleted.classList.remove('selected')
+    }
     while (list.firstChild) {
         list.removeChild(list.firstChild)
     }
@@ -101,6 +106,11 @@ showAll.addEventListener('click', () => {
 
 
 showActive.addEventListener('click', () => {
+    if(!showActive.classList.contains('selected')) {
+        showActive.classList.add('selected')
+        showAll.classList.remove('selected')
+        showCompleted.classList.remove('selected')
+    }
     while (list.firstChild) {
         list.removeChild(list.firstChild)
     }
@@ -115,6 +125,11 @@ showActive.addEventListener('click', () => {
 
 
 showCompleted.addEventListener('click', () => {
+    if(!showCompleted.classList.contains('selected')) {
+        showCompleted.classList.add('selected')
+        showAll.classList.remove('selected')
+        showActive.classList.remove('selected')
+    }
     while (list.firstChild) {
         list.removeChild(list.firstChild)
     }

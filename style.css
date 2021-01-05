@@ -68,6 +68,10 @@ h1 {
   background: var(--very-light-gray);
 }
 
+.create-todo__input:focus {
+  outline: none;
+}
+
 .create-todo__input::placeholder {
   font-size: 1rem;
   font-family: 'Josefin Sans', sans-serif;
@@ -121,6 +125,10 @@ h1 {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 
+.list-options .selected {
+  color: hsl(280, 87%, 65%);
+}
+
 .filter {
   display: flex;
   list-style-type: none;
@@ -134,3 +142,4 @@ h1 {
 .clear-completed {
   cursor: pointer;
 }
+
