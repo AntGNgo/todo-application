@@ -1,12 +1,13 @@
 const input = document.querySelector('.create-todo__input')
 const list = document.querySelector('.list')
-// const completedBtn = document.querySelector('.task__check')
 const itemsLeft = document.querySelector('.items-left')
 const clearCompleted = document.querySelector('.clear-completed')
 const showCompleted = document.querySelector('.completed')
 const showActive = document.querySelector('.active')
 const showAll = document.querySelector('.all')
-
+const toggleTheme = document.getElementById('theme-toggle')
+const body = document.querySelector('.body')
+const toggleImg = document.querySelector('.theme-image')
 
 let listItems = [...list.children]
 let completedItems = []
@@ -164,5 +165,15 @@ input.addEventListener('keydown', (e) => {
         e.target.value = ''
     }
 })
+
+toggleTheme.addEventListener('change', () => {
+    body.classList.toggle('dark')
+    if(body.classList.contains('dark')) {
+        toggleImg.src = './images/icon-moon.svg'
+    } else {
+        toggleImg.src = './images/icon-sun.svg'
+    }
+})
+
 
 createNewItem()

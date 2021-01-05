@@ -9,8 +9,15 @@
   --light-grayish-blue: hsl(233, 11%, 84%);
   --dark-grayish-blue: hsl(236, 9%, 61%);
   --very-dark-grayish-blue: hsl(235, 19%, 35%);
-}
 
+  --very-dark-blue: hsl(235, 21%, 11%);
+  --very-dark-desaturated-blue: hsl(235, 24%, 19%);
+  --light-grayish-blue: hsl(234, 39%, 85%);
+  --light-grayish-blue--hover: hsl(236, 33%, 92%);
+  --dark-grayish-blue: hsl(234, 11%, 52%);
+  --very-dark-grayish-blue: hsl(233, 14%, 35%);
+  --very-dark-grayish-blue-hover: hsl(237, 14%, 26%);
+}
 .task {
   display: flex;
   align-items: center;
@@ -26,6 +33,16 @@ body {
 .container {
   width: 50%;
   margin: 0 auto;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#theme-toggle {
+  display: none;
 }
 
 h1 {
@@ -143,3 +160,37 @@ h1 {
   cursor: pointer;
 }
 
+/* Dark Theme */
+
+.dark {
+  background-image: url('./images/bg-desktop-dark.jpg');
+  background-color: var(--very-dark-blue);
+}
+
+.dark .task-container {
+  color: var(--light-grayish-blue);
+  background-color: var(--very-dark-desaturated-blue);
+}
+
+.dark .create-todo__input {
+  color: var(--light-grayish-blue);
+  background-color: var(--very-dark-desaturated-blue);
+}
+
+.dark .create-todo__input::placeholder {
+  color: var(--light-grayish-blue);
+}
+
+.dark .completed .task__name {
+  color: var(--dark-grayish-blue);
+  text-decoration: line-through;
+}
+
+.list .task-container {
+  border-bottom: 1px solid var(--very-dark-grayish-blue);
+}
+
+.dark .list-options {
+  background-color: var(--very-dark-desaturated-blue);
+  color: var(--light-grayish-blue);
+}

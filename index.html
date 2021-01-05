@@ -10,9 +10,13 @@
   <link rel="stylesheet" href="style.css">
   <script src="./script.js" defer></script>
 </head>
-<body>
+<body class="body">
 <div class="container">
-  <h1>todo</h1>
+  <header>
+    <h1>todo</h1>
+    <input type="checkbox" name="theme-toggle" id="theme-toggle">
+    <label for="theme-toggle"><img src="./images/icon-sun.svg" alt="toggle theme"  class="theme-image"></label>
+  </header>
   <div class="task-container create-todo">
     <div class="task__check"></div>
     <input type="text" class="create-todo__input" placeholder="Create a new todo...">
