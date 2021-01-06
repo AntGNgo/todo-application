@@ -241,7 +241,6 @@ mobileShowActive.addEventListener('click', () => {
 
 })
 
-
 mobileShowCompleted.addEventListener('click', () => {
     if(!mobileShowCompleted.classList.contains('selected')) {
         mobileShowCompleted.classList.add('selected')
@@ -257,10 +256,6 @@ mobileShowCompleted.addEventListener('click', () => {
     })
 
 })
-
-
-
-
 
 // Delete all completed items
 

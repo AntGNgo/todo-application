@@ -217,7 +217,7 @@ h1 {
   color: var(--light-grayish-blue);
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 768px) {
   .container {
     width: 95%;
   }
