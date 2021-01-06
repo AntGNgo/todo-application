@@ -9,14 +9,67 @@ const toggleTheme = document.getElementById('theme-toggle')
 const body = document.querySelector('.body')
 const toggleImg = document.querySelector('.theme-image')
 
+
+// Set initial values
 let listItems = [...list.children]
 let completedItems = []
 
+
+// Add to completedItems Array
 const checkCompleted = () => {
     completedItems = listItems.filter(item => {
         return item.classList.contains('completed')
     })
 }
+
+// Dragging function
+const setDraggables = () => {
+    console.log(document.querySelectorAll('.draggable'))
+    return document.querySelectorAll('.draggable')
+}
+
+const setDragging = (draggables) => {
+    draggables.forEach(draggable => {
+        draggable.addEventListener('dragstart', () => {
+            draggable.classList.add('dragging')
+        })
+        draggable.addEventListener('dragend', () => {
+            draggable.classList.remove('dragging')
+        })
+    })    
+    
+    list.addEventListener('dragover', e => {
+        e.preventDefault()
+        const afterElement = getDragAfterElement(list, e.clientY)
+        const draggable = document.querySelector('.dragging')
+        console.log(draggable.innerHTML)
+        if(afterElement === undefined) {
+            list.appendChild(draggable)
+        } else {
+            list.insertBefore(draggable, afterElement)
+        }
+        
+    })
+    
+    function getDragAfterElement(list, y) {
+        // const draggableElements = [...list.querySelectorAll('.draggable:not(.dragging')]
+        const listChildrenArray = Array.from(list.children)
+        const draggableElements = listChildrenArray.filter(item => {
+            return !item.classList.contains('dragging')
+        })
+    
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect()
+            const offset = y - box.top - box.height / 2 
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child}
+            } else {
+                return closest
+            }
+        }, { offset: Number.NEGATIVE_INFINITY}).element
+    }
+}
+
 
 
 // New Task
@@ -25,6 +78,9 @@ const createNewItem = (input = "Study Development") => {
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
+    task.classList.add('draggable')
+    task.draggable = true
+
     
     let circle = document.createElement('div')
     circle.classList.add('task__check')
@@ -54,7 +110,7 @@ const createNewItem = (input = "Study Development") => {
 
     listItems.push(task)
 
-    // Add items to list to render in HTML
+    // Add items from list to render on page
 
     listItems.forEach((item) => {
         list.appendChild(item)
@@ -65,15 +121,8 @@ const createNewItem = (input = "Study Development") => {
         }
     })
 
-    
-    // let remove = function() {
-    //     this.parentNode.remove()
-    // }
 
-    // for(let i=0; i < delBtn.length; i++) {
-    //     console.log(delBtn)
-    //     delBtn[i].addEventListener('click', remove)
-    // }
+    // Add element specific delete button
     const delBtn = document.querySelectorAll('.task__delete')
 
     delBtn.forEach(btn => {
@@ -87,8 +136,21 @@ const createNewItem = (input = "Study Development") => {
             btn.parentNode.remove()
         })
     })
+
+    let draggables = setDraggables()
+    setDragging(draggables)
+
     
 }
+
+// Initial call to create first generic task
+
+createNewItem()
+let draggables = setDraggables()
+setDragging(draggables)
+
+
+// List Filters
 
 showAll.addEventListener('click', () => {
     if(!showAll.classList.contains('selected')) {
@@ -141,7 +203,7 @@ showCompleted.addEventListener('click', () => {
 
 })
 
-
+// Delete all completed items
 
 clearCompleted.addEventListener('click', (e) => {
     for(let i=listItems.length-1; i>=0; i--) {
@@ -153,10 +215,10 @@ clearCompleted.addEventListener('click', (e) => {
             }
         }
     }
-    console.log(listItems)
 })
 
 
+// Listen for enter keypress
 
 input.addEventListener('keydown', (e) => {
     if(e.keyCode === 13) {
@@ -165,6 +227,8 @@ input.addEventListener('keydown', (e) => {
         e.target.value = ''
     }
 })
+
+// Change Theme
 
 toggleTheme.addEventListener('change', () => {
     body.classList.toggle('dark')
@@ -176,4 +240,8 @@ toggleTheme.addEventListener('change', () => {
 })
 
 
-createNewItem()
+
+
+
+
+

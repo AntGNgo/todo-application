@@ -28,6 +28,7 @@ body {
   /* background-color: var(--very-light-grayish-blue); */
   font-family: 'Josefin Sans', sans-serif;
   /* font-size: 18px; */
+  transition: all 0.7s;
 }
 
 .container {
@@ -60,6 +61,7 @@ h1 {
   background: var(--very-light-gray);
   padding: 15px;
   user-select: none;
+  transition: all 0.5s;
 }
 
 .list .task-container {
@@ -83,6 +85,7 @@ h1 {
   width: 340px;
   border: none;
   background: var(--very-light-gray);
+  transition: all 0.5s;
 }
 
 .create-todo__input:focus {
@@ -140,6 +143,7 @@ h1 {
   color: var(--dark-grayish-blue);
   border-radius: 0 0 5px 5px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  transition: all 0.6s;
 }
 
 .list-options .selected {
@@ -160,7 +164,17 @@ h1 {
   cursor: pointer;
 }
 
+/* Dragging styles */
+.dragging {
+  transform: scale(0.98);
+  opacity: 0.5;
+}
+
 /* Dark Theme */
+
+.theme-image {
+  cursor: pointer;
+}
 
 .dark {
   background-image: url('./images/bg-desktop-dark.jpg');
