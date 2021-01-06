@@ -25,9 +25,7 @@
 
 body {
   background: url(./images/bg-desktop-light.jpg) no-repeat;
-  /* background-color: var(--very-light-grayish-blue); */
   font-family: 'Josefin Sans', sans-serif;
-  /* font-size: 18px; */
   transition: all 0.7s;
 }
 
@@ -142,17 +140,21 @@ h1 {
   align-items: center;
   color: var(--dark-grayish-blue);
   border-radius: 0 0 5px 5px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.6s;
 }
 
-.list-options .selected {
+.selected {
   color: hsl(280, 87%, 65%);
 }
 
 .filter {
   display: flex;
   list-style-type: none;
+}
+
+.mobile.filter {
+  display: none;
 }
 
 .filter li {
@@ -162,6 +164,12 @@ h1 {
 
 .clear-completed {
   cursor: pointer;
+}
+
+.dragdrop-note {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--dark-grayish-blue);
 }
 
 /* Dragging styles */
@@ -207,4 +215,44 @@ h1 {
 .dark .list-options {
   background-color: var(--very-dark-desaturated-blue);
   color: var(--light-grayish-blue);
+}
+
+@media screen and (max-width: 375px) {
+  .container {
+    width: 95%;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .create-todo__input {
+    width: 250px;
+  }
+
+  .list-options {
+    padding: 15px;
+  }
+
+  .filter,
+  .dragdrop-note {
+    display: none;
+  }
+
+  .mobile.filter {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+    align-items: center;
+    background: var(--very-light-gray);
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    padding: 15px 50px;
+    transition: all 0.8s;
+  }
+
+  .dark .mobile.filter {
+    color: var(--light-grayish-blue);
+    background: var(--very-dark-desaturated-blue);
+  }
 }

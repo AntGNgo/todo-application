@@ -9,6 +9,11 @@ const toggleTheme = document.getElementById('theme-toggle')
 const body = document.querySelector('.body')
 const toggleImg = document.querySelector('.theme-image')
 
+const mobileShowCompleted = document.querySelector('.mobile .completed')
+const mobileShowActive = document.querySelector('.mobile .active')
+const mobileShowAll = document.querySelector('.mobile .all')
+
+console.log(mobileShowActive)
 
 // Set initial values
 let listItems = [...list.children]
@@ -24,7 +29,6 @@ const checkCompleted = () => {
 
 // Dragging function
 const setDraggables = () => {
-    console.log(document.querySelectorAll('.draggable'))
     return document.querySelectorAll('.draggable')
 }
 
@@ -42,7 +46,6 @@ const setDragging = (draggables) => {
         e.preventDefault()
         const afterElement = getDragAfterElement(list, e.clientY)
         const draggable = document.querySelector('.dragging')
-        console.log(draggable.innerHTML)
         if(afterElement === undefined) {
             list.appendChild(draggable)
         } else {
@@ -151,7 +154,6 @@ setDragging(draggables)
 
 
 // List Filters
-
 showAll.addEventListener('click', () => {
     if(!showAll.classList.contains('selected')) {
         showAll.classList.add('selected')
@@ -200,8 +202,65 @@ showCompleted.addEventListener('click', () => {
     completedItems.forEach(item => {
         list.appendChild(item)
     })
+})
+
+
+// Mobile Event Listeners
+
+mobileShowAll.addEventListener('click', () => {
+    if(!mobileShowAll.classList.contains('selected')) {
+        mobileShowAll.classList.add('selected')
+        mobileShowActive.classList.remove('selected')
+        mobileShowCompleted.classList.remove('selected')
+    }
+    while (list.firstChild) {
+        list.removeChild(list.firstChild)
+    }
+
+    listItems.forEach(item => {
+            list.appendChild(item)
+    })
+})
+
+
+mobileShowActive.addEventListener('click', () => {
+    if(!mobileShowActive.classList.contains('selected')) {
+        mobileShowActive.classList.add('selected')
+        mobileShowAll.classList.remove('selected')
+        mobileShowCompleted.classList.remove('selected')
+    }
+    while (list.firstChild) {
+        list.removeChild(list.firstChild)
+    }
+
+    listItems.forEach(item => {
+        if (!item.classList.contains('completed')) {
+            list.appendChild(item)
+        }
+    })
 
 })
+
+
+mobileShowCompleted.addEventListener('click', () => {
+    if(!mobileShowCompleted.classList.contains('selected')) {
+        mobileShowCompleted.classList.add('selected')
+        mobileShowAll.classList.remove('selected')
+        mobileShowActive.classList.remove('selected')
+    }
+    while (list.firstChild) {
+        list.removeChild(list.firstChild)
+    }
+
+    completedItems.forEach(item => {
+        list.appendChild(item)
+    })
+
+})
+
+
+
+
 
 // Delete all completed items
 
