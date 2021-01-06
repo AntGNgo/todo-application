@@ -226,6 +226,16 @@ h1 {
   color: var(--light-grayish-blue);
 }
 
+.dark .attribution {
+  margin-top: 5rem;
+  text-align: center;
+  color: var(--light-grayish-blue);
+}
+
+.dark .attribution a {
+  color: var(--light-grayish-blue);
+}
+
 @media screen and (max-width: 768px) {
   .container {
     width: 95%;
