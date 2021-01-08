@@ -19,13 +19,16 @@ const mobileShowAll = document.querySelector('.mobile .all')
 // Set initial values
 let listItems = [...list.children]
 let completedItems = []
-
+let completedItemsStorage []
+let items = []
 
 // Add to completedItems Array
 const checkCompleted = () => {
     completedItems = listItems.filter(item => {
         return item.classList.contains('completed')
     })
+    console.log(completedItems)
+    localStorage.setItem('completed', JSON.stringify(completedItems.innerHTML))
 }
 
 // Dragging function
@@ -56,7 +59,6 @@ const setDragging = (draggables) => {
     })
     
     function getDragAfterElement(list, y) {
-        // const draggableElements = [...list.querySelectorAll('.draggable:not(.dragging')]
         const listChildrenArray = Array.from(list.children)
         const draggableElements = listChildrenArray.filter(item => {
             return !item.classList.contains('dragging')
@@ -78,7 +80,11 @@ const setDragging = (draggables) => {
 
 // New Task
 
-const createNewItem = (input = "Study Development") => {
+
+const createNewItem = (input) => {
+    items.push(input)
+    localStorage.setItem('items', JSON.stringify(items))
+
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -114,9 +120,7 @@ const createNewItem = (input = "Study Development") => {
 
     
     listItems.push(task)
-    console.log(task)
-    localStorage.setItem('items', input)
-    // Add items from list to render on page
+    
 
     listItems.forEach((item) => {
         list.appendChild(item)
@@ -149,9 +153,14 @@ const createNewItem = (input = "Study Development") => {
     
 }
 
-// Initial call to create first generic task
+// Initial call to create tasks in storage
+let parsedStorage = JSON.parse(localStorage.getItem('items'))
 
-createNewItem()
+if(parsedStorage) {
+    parsedStorage.forEach(item => {
+        createNewItem(item)
+    })
+}
 let draggables = setDraggables()
 setDragging(draggables)
 
