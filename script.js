@@ -13,22 +13,21 @@ const mobileShowCompleted = document.querySelector('.mobile .completed')
 const mobileShowActive = document.querySelector('.mobile .active')
 const mobileShowAll = document.querySelector('.mobile .all')
 
-// Add input to localStorage, on page load run the new task function with all the items in local storage?
-
-
 // Set initial values
 let listItems = [...list.children]
 let completedItems = []
-let completedItemsStorage []
+let completedItemsStorage = []
 let items = []
 
 // Add to completedItems Array
 const checkCompleted = () => {
     completedItems = listItems.filter(item => {
-        return item.classList.contains('completed')
+        if(item.classList.contains('completed')) {
+            completedItemsStorage.push(item.innerHTML)
+            return item
+        }
     })
-    console.log(completedItems)
-    localStorage.setItem('completed', JSON.stringify(completedItems.innerHTML))
+    localStorage.setItem('completed', JSON.stringify(completedItemsStorage))
 }
 
 // Dragging function
@@ -80,9 +79,9 @@ const setDragging = (draggables) => {
 
 // New Task
 
-
 const createNewItem = (input) => {
-    items.push(input)
+    items.push({name: input, completed: false})
+
     localStorage.setItem('items', JSON.stringify(items))
 
     let task = document.createElement('div')
@@ -138,6 +137,12 @@ const createNewItem = (input) => {
     delBtn.forEach(btn => {
         btn.addEventListener('click', () => {
             let index = listItems.indexOf(btn.parentNode)
+            items.filter(item => {
+                console.log(item)
+                return !(item.name === btn.parentNode.childNodes[1].innerHTML)
+            })
+            // console.log(items)
+            // console.log(items.find(item => item === btn.parentNode.childNodes[1].innerHTML))
             if(index > -1) {
                 listItems[index].remove()
                 listItems.splice(index, 1)
@@ -158,9 +163,11 @@ let parsedStorage = JSON.parse(localStorage.getItem('items'))
 
 if(parsedStorage) {
     parsedStorage.forEach(item => {
-        createNewItem(item)
+        createNewItem(item.name)
+
     })
 }
+
 let draggables = setDraggables()
 setDragging(draggables)
 
