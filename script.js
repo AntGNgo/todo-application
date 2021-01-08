@@ -13,6 +13,8 @@ const mobileShowCompleted = document.querySelector('.mobile .completed')
 const mobileShowActive = document.querySelector('.mobile .active')
 const mobileShowAll = document.querySelector('.mobile .all')
 
+// Add input to localStorage, on page load run the new task function with all the items in local storage?
+
 
 // Set initial values
 let listItems = [...list.children]
