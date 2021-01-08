@@ -13,7 +13,6 @@ const mobileShowCompleted = document.querySelector('.mobile .completed')
 const mobileShowActive = document.querySelector('.mobile .active')
 const mobileShowAll = document.querySelector('.mobile .all')
 
-console.log(mobileShowActive)
 
 // Set initial values
 let listItems = [...list.children]
@@ -111,8 +110,10 @@ const createNewItem = (input = "Study Development") => {
         }        
     })
 
+    
     listItems.push(task)
-
+    console.log(task)
+    localStorage.setItem('items', input)
     // Add items from list to render on page
 
     listItems.forEach((item) => {
