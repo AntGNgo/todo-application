@@ -15,21 +15,22 @@ const mobileShowAll = document.querySelector('.mobile .all')
 
 // Set initial values
 let listItems = []
-let completedItems = []
 
-let listState = [
-    {
-        name: "Study Development",
-        completed: false
-    }
-]
 
-// Add to completedItems Array
+let listState = []
 
-const checkCompleted = () => {
-    completedItems = listItems.filter(item => {
-       return item.classList.contains('completed')
-})}
+// List State is just name of the task
+if (localStorage.getItem('items')) {
+    listState = JSON.parse(localStorage.getItem("items"))
+} else {
+    listState = []
+}
+
+// List Render is the actual DOM Element that is stored
+
+let listRender = []
+
+
 
 // Dragging function
 
@@ -76,7 +77,14 @@ const setDragging = () => {
 
 // New Task
 
-const createNewItem = (input) => {
+const createNewTask = (input) => {
+    listState.push(input)
+    localStorage.setItem('items', JSON.stringify(listState))
+    createDomElement(input)
+}
+
+
+const createDomElement = (input) => {
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -100,33 +108,31 @@ const createNewItem = (input) => {
     task.appendChild(taskName)
     task.appendChild(del)
 
+    if(input.completed === true) {
+        task.classList.add('completed')
+    }
+
     task.addEventListener('click', () => {
         if(!input.completed) {
             input.completed = true
+            task.classList.add('completed')
+            localStorage.setItem('items', JSON.stringify(listState))
         } else {
             input.completed = false
-        }
-        task.classList.toggle('completed')
-        checkCompleted()
-        if(listItems.length - completedItems.length === 1) {
-            itemsLeft.innerHTML = `${listItems.length - completedItems.length} item left`
-        } else {
-            itemsLeft.innerHTML = `${listItems.length - completedItems.length} items left`
-        }        
-    })
-
-    
-    listItems.push(task)
-    
-
-    listItems.forEach((item) => {
-        list.appendChild(item)
-        if (listItems.length - completedItems.length === 1) {
-            itemsLeft.innerHTML = `${listItems.length - completedItems.length} item left`
-        } else {
-            itemsLeft.innerHTML = `${listItems.length - completedItems.length} items left`
+            task.classList.remove('completed')
+            localStorage.setItem('items', JSON.stringify(listState))
         }
     })
+
+    listRender.push({
+        element: task,
+        completed: false
+    })
+
+    listRender.forEach(item => {
+        list.appendChild(item.element)
+    })
+
 
 
     // Add element specific delete button
@@ -134,30 +140,26 @@ const createNewItem = (input) => {
 
     delBtn.forEach(btn => {
         btn.addEventListener('click', () => {
-            let index = listItems.indexOf(btn.parentNode)
-            if(index > -1) {
-                listItems[index].remove()
-                listItems.splice(index, 1)
-            }
-
-            btn.parentNode.remove()
+            console.log(input)
+            // let index = listRender.indexOf(btn.parentNode)
+            // if(index > -1) {
+            //     listRender[index].remove()
+            //     listRender.splice(index, 1)
+            // }
+            // btn.parentNode.remove()
         })
     })
 
     setDragging()
-
-    
 }
 
 // Initial call to create tasks in storage
-
-listState.forEach(item => {
-    createNewItem(item)
-})
-
-
-
-setDragging()
+if (!listState.length == 0) {
+    listState.forEach(item => {
+        createDomElement(item)
+    })
+    setDragging()
+}
 
 
 // List Filters
@@ -206,9 +208,9 @@ showCompleted.addEventListener('click', () => {
         list.removeChild(list.firstChild)
     }
 
-    completedItems.forEach(item => {
-        list.appendChild(item)
-    })
+    // completedItems.forEach(item => {
+    //     list.appendChild(item)
+    // })
 })
 
 
@@ -284,7 +286,11 @@ clearCompleted.addEventListener('click', (e) => {
 input.addEventListener('keydown', (e) => {
     if(e.keyCode === 13) {
         e.preventDefault()
-        createNewItem(e.target.value)
+        const newItem = {
+            name: e.target.value,
+            completed: false
+        }
+        createNewTask(newItem)
         e.target.value = ''
     }
 })
