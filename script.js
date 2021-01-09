@@ -14,18 +14,24 @@ const mobileShowActive = document.querySelector('.mobile .active')
 const mobileShowAll = document.querySelector('.mobile .all')
 
 // Set initial values
-let listItems = [...list.children]
+let listItems = []
 let completedItems = []
+
+let listState = [
+    {
+        name: "Study Development",
+        completed: false
+    }
+]
+
 // Add to completedItems Array
+
 const checkCompleted = () => {
     completedItems = listItems.filter(item => {
        return item.classList.contains('completed')
 })}
 
 // Dragging function
-// const setDraggables = () => {
-//     return document.querySelectorAll('.draggable')
-// }
 
 const setDragging = () => {
     const draggables = document.querySelectorAll('.draggable')
@@ -68,11 +74,9 @@ const setDragging = () => {
     }
 }
 
-
-
 // New Task
 
-const createNewItem = (input = "Study Development") => {
+const createNewItem = (input) => {
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -86,7 +90,7 @@ const createNewItem = (input = "Study Development") => {
     let taskName = document.createElement('p') 
     taskName.classList.add('task__name')
     
-    let taskInput = document.createTextNode(input)
+    let taskInput = document.createTextNode(input.name)
     taskName.appendChild(taskInput)
 
     let del = document.createElement('div')
@@ -97,6 +101,11 @@ const createNewItem = (input = "Study Development") => {
     task.appendChild(del)
 
     task.addEventListener('click', () => {
+        if(!input.completed) {
+            input.completed = true
+        } else {
+            input.completed = false
+        }
         task.classList.toggle('completed')
         checkCompleted()
         if(listItems.length - completedItems.length === 1) {
@@ -141,7 +150,13 @@ const createNewItem = (input = "Study Development") => {
 }
 
 // Initial call to create tasks in storage
-createNewItem()
+
+listState.forEach(item => {
+    createNewItem(item)
+})
+
+
+
 setDragging()
 
 
