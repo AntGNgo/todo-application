@@ -125,11 +125,6 @@ const createNewItem = (input = "Study Development") => {
     delBtn.forEach(btn => {
         btn.addEventListener('click', () => {
             let index = listItems.indexOf(btn.parentNode)
-            items.filter(item => {
-                console.log(item)
-                return !(item.name === btn.parentNode.childNodes[1].innerHTML)
-            })
-            
             if(index > -1) {
                 listItems[index].remove()
                 listItems.splice(index, 1)
