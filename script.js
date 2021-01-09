@@ -16,19 +16,11 @@ const mobileShowAll = document.querySelector('.mobile .all')
 // Set initial values
 let listItems = [...list.children]
 let completedItems = []
-let completedItemsStorage = []
-let items = []
-
 // Add to completedItems Array
 const checkCompleted = () => {
     completedItems = listItems.filter(item => {
-        if(item.classList.contains('completed')) {
-            completedItemsStorage.push(item.innerHTML)
-            return item
-        }
-    })
-    localStorage.setItem('completed', JSON.stringify(completedItemsStorage))
-}
+       return item.classList.contains('completed')
+})}
 
 // Dragging function
 const setDraggables = () => {
@@ -79,11 +71,7 @@ const setDragging = (draggables) => {
 
 // New Task
 
-const createNewItem = (input) => {
-    items.push({name: input, completed: false})
-
-    localStorage.setItem('items', JSON.stringify(items))
-
+const createNewItem = (input = "Study Development") => {
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -141,8 +129,7 @@ const createNewItem = (input) => {
                 console.log(item)
                 return !(item.name === btn.parentNode.childNodes[1].innerHTML)
             })
-            // console.log(items)
-            // console.log(items.find(item => item === btn.parentNode.childNodes[1].innerHTML))
+            
             if(index > -1) {
                 listItems[index].remove()
                 listItems.splice(index, 1)
@@ -159,14 +146,7 @@ const createNewItem = (input) => {
 }
 
 // Initial call to create tasks in storage
-let parsedStorage = JSON.parse(localStorage.getItem('items'))
-
-if(parsedStorage) {
-    parsedStorage.forEach(item => {
-        createNewItem(item.name)
-
-    })
-}
+createNewItem()
 
 let draggables = setDraggables()
 setDragging(draggables)
