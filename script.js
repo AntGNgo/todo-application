@@ -23,11 +23,12 @@ const checkCompleted = () => {
 })}
 
 // Dragging function
-const setDraggables = () => {
-    return document.querySelectorAll('.draggable')
-}
+// const setDraggables = () => {
+//     return document.querySelectorAll('.draggable')
+// }
 
-const setDragging = (draggables) => {
+const setDragging = () => {
+    const draggables = document.querySelectorAll('.draggable')
     draggables.forEach(draggable => {
         draggable.addEventListener('dragstart', () => {
             draggable.classList.add('dragging')
@@ -134,17 +135,14 @@ const createNewItem = (input = "Study Development") => {
         })
     })
 
-    let draggables = setDraggables()
-    setDragging(draggables)
+    setDragging()
 
     
 }
 
 // Initial call to create tasks in storage
 createNewItem()
-
-let draggables = setDraggables()
-setDragging(draggables)
+setDragging()
 
 
 // List Filters
