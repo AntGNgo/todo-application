@@ -116,6 +116,7 @@ const createDomElement = (input) => {
         if(!input.completed) {
             input.completed = true
             task.classList.add('completed')
+            console.log('here')
             localStorage.setItem('items', JSON.stringify(listState))
         } else {
             input.completed = false
@@ -133,22 +134,21 @@ const createDomElement = (input) => {
         list.appendChild(item.element)
     })
 
-
-
     // Add element specific delete button
-    const delBtn = document.querySelectorAll('.task__delete')
+    const delBtn = task.querySelector('.task__delete')
 
-    delBtn.forEach(btn => {
-        btn.addEventListener('click', () => {
-            console.log(input)
-            // let index = listRender.indexOf(btn.parentNode)
-            // if(index > -1) {
-            //     listRender[index].remove()
-            //     listRender.splice(index, 1)
-            // }
-            // btn.parentNode.remove()
+        delBtn.addEventListener('click', () => {
+            let stateIndex = listState.indexOf(input)
+            if (stateIndex > -1) {
+                listState.splice(stateIndex, 1)
+            }
+            let index = listRender.indexOf(delBtn.parentNode)
+            if(index > -1) {
+                listRender[index].remove()
+                listRender.splice(index, 1)
+            }
+            delBtn.parentNode.remove()
         })
-    })
 
     setDragging()
 }
