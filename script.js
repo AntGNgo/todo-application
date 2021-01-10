@@ -14,8 +14,6 @@ const mobileShowActive = document.querySelector('.mobile .active')
 const mobileShowAll = document.querySelector('.mobile .all')
 
 // Set initial values
-let listItems = []
-
 
 let listState = []
 
@@ -116,7 +114,6 @@ const createDomElement = (input) => {
         if(!input.completed) {
             input.completed = true
             task.classList.add('completed')
-            console.log('here')
             localStorage.setItem('items', JSON.stringify(listState))
         } else {
             input.completed = false
@@ -135,6 +132,7 @@ const createDomElement = (input) => {
     })
 
     // Add element specific delete button
+    // local Storage also get updated because of the completion event listener. When deleted the item completion event handler runs.
     const delBtn = task.querySelector('.task__delete')
 
         delBtn.addEventListener('click', () => {
@@ -142,7 +140,8 @@ const createDomElement = (input) => {
             if (stateIndex > -1) {
                 listState.splice(stateIndex, 1)
             }
-            let index = listRender.indexOf(delBtn.parentNode)
+            let index = Object.values(listRender)
+            console.log(index.filter(node => node == delBtn.parentNode))
             if(index > -1) {
                 listRender[index].remove()
                 listRender.splice(index, 1)
@@ -169,13 +168,13 @@ showAll.addEventListener('click', () => {
         showActive.classList.remove('selected')
         showCompleted.classList.remove('selected')
     }
-    while (list.firstChild) {
-        list.removeChild(list.firstChild)
-    }
 
-    listItems.forEach(item => {
-            list.appendChild(item)
-    })
+    // listState.forEach(item => {
+    //     createDomElement(item)
+    // })
+    // setDragging()
+
+    
 })
 
 
@@ -185,16 +184,13 @@ showActive.addEventListener('click', () => {
         showAll.classList.remove('selected')
         showCompleted.classList.remove('selected')
     }
-    while (list.firstChild) {
-        list.removeChild(list.firstChild)
-    }
 
-    listItems.forEach(item => {
-        if (!item.classList.contains('completed')) {
-            list.appendChild(item)
-        }
-    })
+   console.log(list.children)
 
+   const listArr = Array.from(list.children)
+
+//    const filteredByActive =
+    
 })
 
 
@@ -204,13 +200,7 @@ showCompleted.addEventListener('click', () => {
         showAll.classList.remove('selected')
         showActive.classList.remove('selected')
     }
-    while (list.firstChild) {
-        list.removeChild(list.firstChild)
-    }
-
-    // completedItems.forEach(item => {
-    //     list.appendChild(item)
-    // })
+   
 })
 
 
@@ -222,13 +212,7 @@ mobileShowAll.addEventListener('click', () => {
         mobileShowActive.classList.remove('selected')
         mobileShowCompleted.classList.remove('selected')
     }
-    while (list.firstChild) {
-        list.removeChild(list.firstChild)
-    }
-
-    listItems.forEach(item => {
-            list.appendChild(item)
-    })
+    
 })
 
 
@@ -238,15 +222,7 @@ mobileShowActive.addEventListener('click', () => {
         mobileShowAll.classList.remove('selected')
         mobileShowCompleted.classList.remove('selected')
     }
-    while (list.firstChild) {
-        list.removeChild(list.firstChild)
-    }
-
-    listItems.forEach(item => {
-        if (!item.classList.contains('completed')) {
-            list.appendChild(item)
-        }
-    })
+   
 
 })
 
@@ -256,28 +232,13 @@ mobileShowCompleted.addEventListener('click', () => {
         mobileShowAll.classList.remove('selected')
         mobileShowActive.classList.remove('selected')
     }
-    while (list.firstChild) {
-        list.removeChild(list.firstChild)
-    }
-
-    completedItems.forEach(item => {
-        list.appendChild(item)
-    })
-
+    
 })
 
 // Delete all completed items
 
 clearCompleted.addEventListener('click', (e) => {
-    for(let i=listItems.length-1; i>=0; i--) {
-        if(listItems[i].classList.contains('completed')) {
-            let index = listItems.indexOf(listItems[i])
-            if(index > -1) {
-                listItems[i].remove()
-                listItems.splice(index, 1)
-            }
-        }
-    }
+   
 })
 
 

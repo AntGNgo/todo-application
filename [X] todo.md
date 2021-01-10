@@ -1,4 +1,4 @@
 [X] Adding
 [X] Completion
-[] Deleting
+[X] Deleting
 [] Filter
