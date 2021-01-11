@@ -27,14 +27,14 @@
 // List Render is the actual DOM Element that is stored
 
 
-const initialRender = (listArr) => {
-    const list = document.querySelector('.list')
-    listArr.forEach(item => {
-        let task = newTaskListener(item.name)
-        addEvtListeners(task)
-        list.appendChild(task)
-    })
-}
+// const initialRender = (listArr) => {
+//     const list = document.querySelector('.list')
+//     listArr.forEach(item => {
+//         let task = newTaskListener(item.name)
+//         addEvtListeners(task)
+//         list.appendChild(task)
+//     })
+// }
 
 
 const newTaskListener = () => {
@@ -46,16 +46,14 @@ const newTaskListener = () => {
                 name: e.target.value,
                 completed: false
             }
-            createNewTask(newItem)
             e.target.value = ''
+            return newItem
         }
     })
 } 
 
-const createNewTask = (input) => {
-    // listState.push(input)
-    // localStorage.setItem('items', JSON.stringify(listState))
-    return domElement(input.name)
+const createNewTask = (task) => {
+    return domElement(task.title)
 }
 
 const domElement = (name) => {
@@ -82,9 +80,8 @@ const domElement = (name) => {
     task.appendChild(taskName)
     task.appendChild(del)
 
-    const list = document.querySelector('.list')
-    console.log(task)
-    list.appendChild(task)
+    addEvtListeners(task)
+    
     return task
 }
 
@@ -134,13 +131,6 @@ const setDragging = () => {
     }
 }
 
-// New Task
-
-
-
-
-
-
 const addEvtListeners = (task) => {
     task.addEventListener('click', () => {
         if(!input.completed) {
@@ -174,13 +164,30 @@ const addEvtListeners = (task) => {
     setDragging()
 }
 
+const renderTask = (task) => {
+    const list = document.querySelector('.list')
+    list.appendChild(task)
+}
+
+const setState = () => {
+    return [
+        {
+            title:"Study",
+            completed: false
+        }
+    ]
+}
+
+const initialRender = (state) => {
+    state.forEach(item => {
+        renderTask(createNewTask(item))
+    })
+}
 
 const onLoad = () => {
-    let listState = [{
-        title: "Study Development",
-        completed: true
-    }]
-    newTaskListener()
+    let state = setState()
+    initialRender(state)
+    let task = newTaskListener()
 
 }
 
