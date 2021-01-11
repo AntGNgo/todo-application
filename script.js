@@ -1,7 +1,7 @@
 
 
 // const itemsLeft = document.querySelector('.items-left')
-// const clearCompleted = document.querySelector('.clear-completed')
+
 // const showCompleted = document.querySelector('.completed')
 // const showActive = document.querySelector('.active')
 // const showAll = document.querySelector('.all')
@@ -9,9 +9,9 @@
 // const body = document.querySelector('.body')
 
 
-const mobileShowCompleted = document.querySelector('.mobile .completed')
-const mobileShowActive = document.querySelector('.mobile .active')
-const mobileShowAll = document.querySelector('.mobile .all')
+// const mobileShowCompleted = document.querySelector('.mobile .completed')
+// const mobileShowActive = document.querySelector('.mobile .active')
+// const mobileShowAll = document.querySelector('.mobile .all')
 
 // Set initial values
 
@@ -27,20 +27,66 @@ const mobileShowAll = document.querySelector('.mobile .all')
 // List Render is the actual DOM Element that is stored
 
 
-
-const onLoad = () => {
-    let listState = []
-    let listRender = []
-
-}
-
-if (!listState.length == 0) {
-    listState.forEach(item => {
-        createDomElement(item)
+const initialRender = (listArr) => {
+    const list = document.querySelector('.list')
+    listArr.forEach(item => {
+        let task = newTaskListener(item.name)
+        addEvtListeners(task)
+        list.appendChild(task)
     })
-    setDragging()
 }
 
+
+const newTaskListener = () => {
+    const input = document.querySelector('.create-todo__input')
+    input.addEventListener('keydown', (e) => {
+        if(e.keyCode === 13) {
+            e.preventDefault()
+            const newItem = {
+                name: e.target.value,
+                completed: false
+            }
+            createNewTask(newItem)
+            e.target.value = ''
+        }
+    })
+} 
+
+const createNewTask = (input) => {
+    // listState.push(input)
+    // localStorage.setItem('items', JSON.stringify(listState))
+    return domElement(input.name)
+}
+
+const domElement = (name) => {
+    let task = document.createElement('div')
+    task.classList.add('task-container')
+    task.classList.add('task')
+    task.classList.add('draggable')
+    task.draggable = true
+
+    
+    let circle = document.createElement('div')
+    circle.classList.add('task__check')
+    
+    let taskName = document.createElement('p') 
+    taskName.classList.add('task__name')
+    
+    let taskInput = document.createTextNode(name)
+    taskName.appendChild(taskInput)
+
+    let del = document.createElement('div')
+    del.classList.add('task__delete')
+
+    task.appendChild(circle)
+    task.appendChild(taskName)
+    task.appendChild(del)
+
+    const list = document.querySelector('.list')
+    console.log(task)
+    list.appendChild(task)
+    return task
+}
 
 
 // Dragging function
@@ -90,44 +136,12 @@ const setDragging = () => {
 
 // New Task
 
-const createNewTask = (input) => {
-    listState.push(input)
-    localStorage.setItem('items', JSON.stringify(listState))
-    createDomElement(input)
-}
 
 
-const createDomElement = (input) => {
-    const list = document.querySelector('.list')
 
 
-    let task = document.createElement('div')
-    task.classList.add('task-container')
-    task.classList.add('task')
-    task.classList.add('draggable')
-    task.draggable = true
 
-    
-    let circle = document.createElement('div')
-    circle.classList.add('task__check')
-    
-    let taskName = document.createElement('p') 
-    taskName.classList.add('task__name')
-    
-    let taskInput = document.createTextNode(input.name)
-    taskName.appendChild(taskInput)
-
-    let del = document.createElement('div')
-    del.classList.add('task__delete')
-
-    task.appendChild(circle)
-    task.appendChild(taskName)
-    task.appendChild(del)
-
-    if(input.completed === true) {
-        task.classList.add('completed')
-    }
-
+const addEvtListeners = (task) => {
     task.addEventListener('click', () => {
         if(!input.completed) {
             input.completed = true
@@ -140,19 +154,9 @@ const createDomElement = (input) => {
         }
     })
 
-    listRender.push({
-        element: task,
-        completed: false
-    })
-
-    listRender.forEach(item => {
-        list.appendChild(item.element)
-    })
-
+    const delBtn = task.querySelector('.task__delete')
     // Add element specific delete button
     // local Storage also get updated because of the completion event listener. When deleted the item completion event handler runs.
-    const delBtn = task.querySelector('.task__delete')
-
         delBtn.addEventListener('click', () => {
             let stateIndex = listState.indexOf(input)
             if (stateIndex > -1) {
@@ -170,106 +174,108 @@ const createDomElement = (input) => {
     setDragging()
 }
 
-// Initial call to create tasks in storage
 
+const onLoad = () => {
+    let listState = [{
+        title: "Study Development",
+        completed: true
+    }]
+    newTaskListener()
+
+}
+
+onLoad()
 
 // List Filters
-showAll.addEventListener('click', () => {
-    if(!showAll.classList.contains('selected')) {
-        showAll.classList.add('selected')
-        showActive.classList.remove('selected')
-        showCompleted.classList.remove('selected')
-    }
+// showAll.addEventListener('click', () => {
+//     if(!showAll.classList.contains('selected')) {
+//         showAll.classList.add('selected')
+//         showActive.classList.remove('selected')
+//         showCompleted.classList.remove('selected')
+//     }
 
-    // listState.forEach(item => {
-    //     createDomElement(item)
-    // })
-    // setDragging()
+//     // listState.forEach(item => {
+//     //     createDomElement(item)
+//     // })
+//     // setDragging()
 
     
-})
+// })
 
 
-showActive.addEventListener('click', () => {
-    if(!showActive.classList.contains('selected')) {
-        showActive.classList.add('selected')
-        showAll.classList.remove('selected')
-        showCompleted.classList.remove('selected')
-    }
+// showActive.addEventListener('click', () => {
+//     if(!showActive.classList.contains('selected')) {
+//         showActive.classList.add('selected')
+//         showAll.classList.remove('selected')
+//         showCompleted.classList.remove('selected')
+//     }
 
-   console.log(list.children)
+//    console.log(list.children)
 
-   const listArr = Array.from(list.children)
+//    const listArr = Array.from(list.children)
 
-//    const filteredByActive =
+// //    const filteredByActive =
     
-})
+// })
 
 
-showCompleted.addEventListener('click', () => {
-    if(!showCompleted.classList.contains('selected')) {
-        showCompleted.classList.add('selected')
-        showAll.classList.remove('selected')
-        showActive.classList.remove('selected')
-    }
+// showCompleted.addEventListener('click', () => {
+//     if(!showCompleted.classList.contains('selected')) {
+//         showCompleted.classList.add('selected')
+//         showAll.classList.remove('selected')
+//         showActive.classList.remove('selected')
+//     }
    
-})
+// })
 
 
 // Mobile Event Listeners
 
-mobileShowAll.addEventListener('click', () => {
-    if(!mobileShowAll.classList.contains('selected')) {
-        mobileShowAll.classList.add('selected')
-        mobileShowActive.classList.remove('selected')
-        mobileShowCompleted.classList.remove('selected')
-    }
+
+
+// mobileShowAll.addEventListener('click', () => {
+//     if(!mobileShowAll.classList.contains('selected')) {
+//         mobileShowAll.classList.add('selected')
+//         mobileShowActive.classList.remove('selected')
+//         mobileShowCompleted.classList.remove('selected')
+//     }
     
-})
+// })
 
 
-mobileShowActive.addEventListener('click', () => {
-    if(!mobileShowActive.classList.contains('selected')) {
-        mobileShowActive.classList.add('selected')
-        mobileShowAll.classList.remove('selected')
-        mobileShowCompleted.classList.remove('selected')
-    }
+// mobileShowActive.addEventListener('click', () => {
+//     if(!mobileShowActive.classList.contains('selected')) {
+//         mobileShowActive.classList.add('selected')
+//         mobileShowAll.classList.remove('selected')
+//         mobileShowCompleted.classList.remove('selected')
+//     }
    
 
-})
+// })
 
-mobileShowCompleted.addEventListener('click', () => {
-    if(!mobileShowCompleted.classList.contains('selected')) {
-        mobileShowCompleted.classList.add('selected')
-        mobileShowAll.classList.remove('selected')
-        mobileShowActive.classList.remove('selected')
-    }
+// mobileShowCompleted.addEventListener('click', () => {
+//     if(!mobileShowCompleted.classList.contains('selected')) {
+//         mobileShowCompleted.classList.add('selected')
+//         mobileShowAll.classList.remove('selected')
+//         mobileShowActive.classList.remove('selected')
+//     }
     
-})
+// })
 
 // Delete all completed items
 
-clearCompleted.addEventListener('click', (e) => {
-   
-})
+const clearCompletedListener = () => {
+    const clearCompleted = document.querySelector('.clear-completed')
+    clearCompleted.addEventListener('click', (e) => {
+        
+    })
+}
+
 
 
 // Listen for enter keypress
 
-const newTaskListener = () => {
-    const input = document.querySelector('.create-todo__input')
-    input.addEventListener('keydown', (e) => {
-        if(e.keyCode === 13) {
-            e.preventDefault()
-            const newItem = {
-                name: e.target.value,
-                completed: false
-            }
-            createNewTask(newItem)
-            e.target.value = ''
-        }
-    })
-} 
+
 
 // Change Theme
 
