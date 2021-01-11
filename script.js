@@ -52,7 +52,18 @@ const newTaskListener = () => {
     })
 } 
 
+const addToLocalStorage = (newTask) => {
+    if(localStorage.getItem('items') !== null) {
+        localStorage.setItem('item', JSON.stringify(newTask))
+    } else {
+        let currentlyStored = JSON.parse(localStorage.getItem('items'))
+        let updatedStored = currentlyStored.push(newTask)
+        localStorage.setItem('items', JSON.stringify(updatedStored))
+    }
+}
+
 const createNewTask = (task) => {
+    addToLocalStorage(task)
     return domElement(task.title)
 }
 
@@ -184,18 +195,12 @@ const initialRender = (state) => {
     })
 }
 
-const onLoad = () => {
-    
-
-}
-
 (() => {
     let state = setState()
     initialRender(state)
     let task = newTaskListener()
 })()
 
-onLoad()
 
 // List Filters
 // showAll.addEventListener('click', () => {
