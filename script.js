@@ -1,13 +1,13 @@
-const input = document.querySelector('.create-todo__input')
-const list = document.querySelector('.list')
-const itemsLeft = document.querySelector('.items-left')
-const clearCompleted = document.querySelector('.clear-completed')
-const showCompleted = document.querySelector('.completed')
-const showActive = document.querySelector('.active')
-const showAll = document.querySelector('.all')
-const toggleTheme = document.getElementById('theme-toggle')
-const body = document.querySelector('.body')
-const toggleImg = document.querySelector('.theme-image')
+
+
+// const itemsLeft = document.querySelector('.items-left')
+// const clearCompleted = document.querySelector('.clear-completed')
+// const showCompleted = document.querySelector('.completed')
+// const showActive = document.querySelector('.active')
+// const showAll = document.querySelector('.all')
+
+// const body = document.querySelector('.body')
+
 
 const mobileShowCompleted = document.querySelector('.mobile .completed')
 const mobileShowActive = document.querySelector('.mobile .active')
@@ -15,18 +15,31 @@ const mobileShowAll = document.querySelector('.mobile .all')
 
 // Set initial values
 
-let listState = []
+
 
 // List State is just name of the task
-if (localStorage.getItem('items')) {
-    listState = JSON.parse(localStorage.getItem("items"))
-} else {
-    listState = []
-}
+// if (localStorage.getItem('items')) {
+//     listState = JSON.parse(localStorage.getItem("items"))
+// } else {
+//     listState = []
+// }
 
 // List Render is the actual DOM Element that is stored
 
-let listRender = []
+
+
+const onLoad = () => {
+    let listState = []
+    let listRender = []
+
+}
+
+if (!listState.length == 0) {
+    listState.forEach(item => {
+        createDomElement(item)
+    })
+    setDragging()
+}
 
 
 
@@ -43,6 +56,8 @@ const setDragging = () => {
         })
     })    
     
+
+    const list = document.querySelector('.list')
     list.addEventListener('dragover', e => {
         e.preventDefault()
         const afterElement = getDragAfterElement(list, e.clientY)
@@ -83,6 +98,9 @@ const createNewTask = (input) => {
 
 
 const createDomElement = (input) => {
+    const list = document.querySelector('.list')
+
+
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -153,12 +171,6 @@ const createDomElement = (input) => {
 }
 
 // Initial call to create tasks in storage
-if (!listState.length == 0) {
-    listState.forEach(item => {
-        createDomElement(item)
-    })
-    setDragging()
-}
 
 
 // List Filters
@@ -244,28 +256,37 @@ clearCompleted.addEventListener('click', (e) => {
 
 // Listen for enter keypress
 
-input.addEventListener('keydown', (e) => {
-    if(e.keyCode === 13) {
-        e.preventDefault()
-        const newItem = {
-            name: e.target.value,
-            completed: false
+const newTaskListener = () => {
+    const input = document.querySelector('.create-todo__input')
+    input.addEventListener('keydown', (e) => {
+        if(e.keyCode === 13) {
+            e.preventDefault()
+            const newItem = {
+                name: e.target.value,
+                completed: false
+            }
+            createNewTask(newItem)
+            e.target.value = ''
         }
-        createNewTask(newItem)
-        e.target.value = ''
-    }
-})
+    })
+} 
 
 // Change Theme
 
-toggleTheme.addEventListener('change', () => {
-    body.classList.toggle('dark')
-    if(body.classList.contains('dark')) {
-        toggleImg.src = './images/icon-moon.svg'
-    } else {
-        toggleImg.src = './images/icon-sun.svg'
-    }
-})
+const toggleThemeListener = () => {
+    const toggleImg = document.querySelector('.theme-image')
+    const toggleTheme = document.getElementById('theme-toggle')
+    toggleTheme.addEventListener('change', () => {
+        body.classList.toggle('dark')
+        if(body.classList.contains('dark')) {
+            toggleImg.src = './images/icon-moon.svg'
+        } else {
+            toggleImg.src = './images/icon-sun.svg'
+        }
+    })
+}
+
+
 
 
 
