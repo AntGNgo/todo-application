@@ -185,11 +185,15 @@ const initialRender = (state) => {
 }
 
 const onLoad = () => {
+    
+
+}
+
+(() => {
     let state = setState()
     initialRender(state)
     let task = newTaskListener()
-
-}
+})()
 
 onLoad()
 
