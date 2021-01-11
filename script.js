@@ -52,6 +52,17 @@ const newTaskListener = () => {
     })
 } 
 
+
+const getLocalStorage = () => {
+    if(localStorage.getItem('items') !== null) {
+        const state = localStorage.getItem("items")
+        console.log(state)
+        return 
+    } else {
+        return []
+    }
+}
+
 const addToLocalStorage = (newTask) => {
     if(localStorage.getItem('items') !== null) {
         localStorage.setItem('item', JSON.stringify(newTask))
@@ -64,10 +75,10 @@ const addToLocalStorage = (newTask) => {
 
 const createNewTask = (task) => {
     addToLocalStorage(task)
-    return domElement(task.title)
+    return createDomElement(task.title)
 }
 
-const domElement = (name) => {
+const createDomElement = (name) => {
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -109,7 +120,6 @@ const setDragging = () => {
             draggable.classList.remove('dragging')
         })
     })    
-    
 
     const list = document.querySelector('.list')
     list.addEventListener('dragover', e => {
@@ -141,6 +151,8 @@ const setDragging = () => {
         }, { offset: Number.NEGATIVE_INFINITY}).element
     }
 }
+
+// Task Event Listeners
 
 const addEvtListeners = (task) => {
     task.addEventListener('click', () => {
@@ -175,30 +187,23 @@ const addEvtListeners = (task) => {
     setDragging()
 }
 
-const renderTask = (task) => {
+const renderNewTask = (task) => {
     const list = document.querySelector('.list')
     list.appendChild(task)
 }
 
-const setState = () => {
-    return [
-        {
-            title:"Study",
-            completed: false
-        }
-    ]
-}
 
 const initialRender = (state) => {
     state.forEach(item => {
-        renderTask(createNewTask(item))
+        renderNewTask(createDomElement(item))
     })
 }
 
 (() => {
-    let state = setState()
+    let state = getLocalStorage()
     initialRender(state)
     let task = newTaskListener()
+    createNewTask(task)
 })()
 
 
