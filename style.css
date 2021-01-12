@@ -247,7 +247,7 @@ h1 {
   }
 
   .create-todo__input {
-    width: 250px;
+    width: 75%;
   }
 
   .list-options {
