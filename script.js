@@ -37,17 +37,17 @@
 // }
 
 
-const newTaskListener = () => {
+const createNewTaskListener = () => {
     const input = document.querySelector('.create-todo__input')
     input.addEventListener('keydown', (e) => {
         if(e.keyCode === 13) {
             e.preventDefault()
             const newItem = {
-                name: e.target.value,
+                title: e.target.value,
                 completed: false
             }
             e.target.value = ''
-            return newItem
+            createNewTask(newItem)
         }
     })
 } 
@@ -55,30 +55,30 @@ const newTaskListener = () => {
 
 const getLocalStorage = () => {
     if(localStorage.getItem('items') !== null) {
-        const state = localStorage.getItem("items")
-        console.log(state)
-        return 
+        const state = JSON.parse(localStorage.getItem("items"))
+        return state
     } else {
         return []
     }
 }
 
 const addToLocalStorage = (newTask) => {
-    if(localStorage.getItem('items') !== null) {
-        localStorage.setItem('item', JSON.stringify(newTask))
-    } else {
-        let currentlyStored = JSON.parse(localStorage.getItem('items'))
+    try {
+        let currentlyStored = getLocalStorage()
         let updatedStored = currentlyStored.push(newTask)
         localStorage.setItem('items', JSON.stringify(updatedStored))
+    } catch (error) {
+        localStorage.setItem('item', JSON.stringify(newTask))
+        
     }
 }
 
 const createNewTask = (task) => {
     addToLocalStorage(task)
-    return createDomElement(task.title)
+    createDomElement(task.title)
 }
 
-const createDomElement = (name) => {
+const createDomElement = ({ name }) => {
     let task = document.createElement('div')
     task.classList.add('task-container')
     task.classList.add('task')
@@ -104,7 +104,7 @@ const createDomElement = (name) => {
 
     addEvtListeners(task)
     
-    return task
+    renderNewTask(task)
 }
 
 
@@ -156,14 +156,12 @@ const setDragging = () => {
 
 const addEvtListeners = (task) => {
     task.addEventListener('click', () => {
-        if(!input.completed) {
-            input.completed = true
+        if(!task.completed) {
+            task.completed = true
             task.classList.add('completed')
-            localStorage.setItem('items', JSON.stringify(listState))
         } else {
-            input.completed = false
+            task.completed = false
             task.classList.remove('completed')
-            localStorage.setItem('items', JSON.stringify(listState))
         }
     })
 
@@ -187,24 +185,43 @@ const addEvtListeners = (task) => {
     setDragging()
 }
 
+
+
 const renderNewTask = (task) => {
     const list = document.querySelector('.list')
     list.appendChild(task)
 }
 
 
-const initialRender = (state) => {
+const initialRender = () => {
+    let state = getLocalStorage()
     state.forEach(item => {
         renderNewTask(createDomElement(item))
     })
 }
 
 (() => {
-    let state = getLocalStorage()
-    initialRender(state)
-    let task = newTaskListener()
-    createNewTask(task)
+    initialRender()
+    createNewTaskListener()
 })()
+
+
+
+
+// Create an initial state
+// Render whatever is returned from the initial state
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // List Filters
@@ -285,12 +302,12 @@ const initialRender = (state) => {
 
 // Delete all completed items
 
-const clearCompletedListener = () => {
-    const clearCompleted = document.querySelector('.clear-completed')
-    clearCompleted.addEventListener('click', (e) => {
+// const clearCompletedListener = () => {
+//     const clearCompleted = document.querySelector('.clear-completed')
+//     clearCompleted.addEventListener('click', (e) => {
         
-    })
-}
+//     })
+// }
 
 
 
@@ -300,18 +317,18 @@ const clearCompletedListener = () => {
 
 // Change Theme
 
-const toggleThemeListener = () => {
-    const toggleImg = document.querySelector('.theme-image')
-    const toggleTheme = document.getElementById('theme-toggle')
-    toggleTheme.addEventListener('change', () => {
-        body.classList.toggle('dark')
-        if(body.classList.contains('dark')) {
-            toggleImg.src = './images/icon-moon.svg'
-        } else {
-            toggleImg.src = './images/icon-sun.svg'
-        }
-    })
-}
+// const toggleThemeListener = () => {
+//     const toggleImg = document.querySelector('.theme-image')
+//     const toggleTheme = document.getElementById('theme-toggle')
+//     toggleTheme.addEventListener('change', () => {
+//         body.classList.toggle('dark')
+//         if(body.classList.contains('dark')) {
+//             toggleImg.src = './images/icon-moon.svg'
+//         } else {
+//             toggleImg.src = './images/icon-sun.svg'
+//         }
+//     })
+// }
 
 
 
