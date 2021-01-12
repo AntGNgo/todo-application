@@ -1,7 +1,7 @@
 // Get Inital State
 const getState = () => {
-    if(localStorage.getItem('items') !== null) {
-        const state = JSON.parse(localStorage.getItem("items"))
+    if(localStorage.getItem('item') !== null) {
+        const state = JSON.parse(localStorage.getItem("item"))
         return state
     } else {
         return []
@@ -11,8 +11,8 @@ const getState = () => {
 // Add to state
 const appendState = (newTask) => {
     const currentState = getState()
-    const newState = currentState.push(newTask)
-    localStorage.setItem('items', JSON.stringify(newState))
+    const newState = [...currentState, newTask]
+    localStorage.setItem('item', JSON.stringify(newState))
 }
 
 // createNewTask
@@ -27,12 +27,15 @@ const createNewTask = () => {
                 completed: false
             }
             e.target.value = ''
+            console.log(task)
             appendState(task)
             const element = createDomElement(task)
-            
+            appendToList(element)
         }
     })
 }
+
+createNewTask()
 
 // Create DOM Element to append
 
@@ -148,4 +151,10 @@ const setDragging = () => {
             }
         }, { offset: Number.NEGATIVE_INFINITY}).element
     }
+}
+
+// Append element to DOM list 
+const appendToList = (task) => {
+    const list = document.querySelector('.list')
+    list.appendChild(task)
 }
