@@ -109,7 +109,6 @@
         for(let i = 0; i < children.length; i++) {
             let child = children[i]
             if(child.classList.contains('completed')) {
-                console.log(child)
                 child.style.display = 'none'
             }
         }
@@ -123,7 +122,6 @@
             let child = children[i]
             
             if(!child.classList.contains('completed')) {
-                console.log(child)
                 child.style.display = 'none'
             }
         }
