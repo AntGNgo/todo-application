@@ -41,7 +41,7 @@
         
         delBtn.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                console.log(list.removeChild(btn.parentNode))
+                list.removeChild(btn.parentNode)
             })
             itemCount()
             store()
@@ -238,9 +238,6 @@
         }
     }
 
-    setDragging()
-
-
     // Change Theme
 
     const body = document.querySelector('.body')
@@ -266,6 +263,9 @@
             toggleImg.src = './images/icon-moon.svg'
         }
     }
+
     checkTheme()
+    removeItem()
+    setDragging()
 
 })()
